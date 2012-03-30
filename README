@@ -1,0 +1,58 @@
+SUMMARY
+使用CGI程序对SVN账号权限进行管理，同时对密码进行管理。
+
+适合：
+
+使用apache＋svn，密码使用htpasswd来设置的。
+
+#summary One-sentence summary of this page.
+
+= Introduction =
+如果你懂CGI，代码看起来并不是很难阅读，这是我第一次用Perl写程序。
+你的版本管理如果使用：Apache＋svn，并且希望将其中的权限和别的应用程序整合，如一些流程管理工具：CQ，CC等，或者如JIRA。如果你有这个打算，那么可以看看这段程序是否正是你想要的。
+
+= Details =
+
+==安装（Install）==
+在Apache服务器的conf/httpd.conf文件中找到你的{{{ScriptAlias/cgi-bin/ /yourpath/}}}，将svnacc.pl放到yourpath目录中，即可，so easy！
+Tips:注意svnacc.pl的权限。
+
+==设置（Config）==
+找到svnacc.pl中{{{$filename , $passconf}}}这两个变量，其路径分别修改成你系统对应的权限控制文件和密码文件。
+
+==使用（Use）==
+svnacc.pl接受参数：
+|| *参数名* || *详情* || 使用场景 ||
+|| cmd || 主命令控制 || showacc,uacc,editacc：浏览，修改密码，修改权限 ||
+|| account || SVN账户名 || cmd=uacc时，修改用户密码 ||
+|| password || SVN密码 || cmd=uacc时，修改用户密码 ||
+|| srd || selected repository directory|| cmd=editacc，修改权限 ||
+|| su || selected user || cmd=editacc，修改权限 ||
+|| np || now permit || cmd=editacc时，修改权限 ||
+
+新增或者修改权限：<br/>
+对{{{[/a/b/c]}}}目录，summer.xt2用户可读可写：<br/>
+{{{http://localhost:7777/cgi-bin/svnacc.pl?cmd=editacc&srd=[/a/b/c]&su=summer.xt2&np=rw}}}
+
+显示所有权限值：<br/>
+{{{http://localhost:7777/cgi-bin/svnacc.pl?cmd=showacc}}}
+
+修改密码：<br/>
+{{{http://localhost:7777/cgi-bin/svnacc.pl?cmd=uacc&account=summer.xt&passwd=test}}}
+
+
+
+==后续提升：==
+1、后续有空的话进行一些优化：程序分段，代码格式改成好看的面向对象的模式。
+2、增加对Group，Alias的支持。
+3、。。。。。
+
+
+Something very useful:
+
+
+perl eclipse plugin:http://www.epic-ide.org/guide/ch02.php 
+
+Documents:http://perldoc.perl.org you could download all and read offline. 
+
+Some Best Example:http://pleac.sourceforge.net/pleac_perl/index.html
